@@ -16,19 +16,17 @@ jobs:
       uses: actions/checkout@v4
       
     # Stage 2: Build
-    - name: Install dependencies
+    - name: Install build tools
       run: |
         sudo apt-get update
         sudo apt-get install -y build-essential
-        echo "gcc version:"
-        gcc --version
+        echo "Files in repository:"
+        ls -la
         
     - name: Build application
       run: |
         make build
         echo "Build completed successfully"
-        ls -la
-        file multiplication_app
         
     # Stage 3: Test
     - name: Run unit tests
@@ -39,8 +37,7 @@ jobs:
     - name: Package artifact
       run: |
         make package
-        echo "Artifact packaged: multiplication_binary.tar.gz"
-        tar -tzf multiplication_binary.tar.gz
+        echo "Artifact created successfully"
         
     - name: Upload build artifact
       uses: actions/upload-artifact@v4
@@ -54,15 +51,7 @@ jobs:
       env:
         DEPLOY_API_KEY: ${{ secrets.DEPLOY_API_KEY }}
       run: |
-        # Download the artifact created in previous stage
-        echo "Downloading artifact from previous stage..."
-        
-        # In a real scenario, we'd download from artifact storage
-        # For simulation, we'll use the locally created artifact
-        echo "Using artifact: multiplication_binary.tar.gz"
-        
-        # Simulate deployment process
         echo "Starting simulated deployment..."
         echo "Deployment using API Key: $DEPLOY_API_KEY"
-        echo "Artifact multiplication_binary.tar.gz successfully deployed to staging environment"
-        echo "Deployment simulation completed successfully"
+        echo "Artifact multiplication_binary.tar.gz successfully deployed"
+        echo "Deployment simulation completed"
