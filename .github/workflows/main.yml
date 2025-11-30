@@ -1,0 +1,54 @@
+name: CI Pipeline for Multiplication C Program
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  ci-pipeline:
+    runs-on: ubuntu-latest
+    
+    steps:
+    # Stage 1: Source - Checkout code
+    - name: Checkout source code
+      uses: actions/checkout@v4
+      
+    # Stage 2: Build
+    - name: Build application
+      run: |
+        make build
+        echo "Build completed successfully"
+        
+    # Stage 3: Test
+    - name: Run unit tests
+      run: |
+        make test
+        
+    # Stage 4: Package/Artifact
+    - name: Package artifact
+      run: |
+        make package
+        echo "Artifact packaged: multiplication_binary.tar.gz"
+        
+    - name: Upload build artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: multiplication-binary
+        path: multiplication_binary.tar.gz
+        retention-days: 30
+        
+    # Stage 5: Simulated Deploy
+    - name: Simulated deployment
+      env:
+        DEPLOY_API_KEY: ${{ secrets.DEPLOY_API_KEY }}
+      run: |
+        # Download the artifact created in previous stage
+        echo "Downloading artifact from previous stage..."
+        
+        # Simulate deployment process
+        echo "Starting simulated deployment..."
+        echo "Deployment using API Key: $DEPLOY_API_KEY"
+        echo "Artifact multiplication_binary.tar.gz successfully deployed to staging environment"
+        echo "Deployment simulation completed successfully"
