@@ -2,7 +2,7 @@
 #include "multiplication.h"
 
 int main() {
-    int num1 = 4, num2 = 8;
+    int num1 = 3, num2 = 5;
     float f1 = 2.5, f2 = 3.2;
     
     printf("=== Multiplication Program ===\n");   
